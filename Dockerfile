@@ -1,3 +1,2 @@
-FROM rocker/tidyverse
-RUN apt update && apt install -y man-db && rm -rf /var/lib/apt/lists/*
-yes | unminimize
+FROM rocker/verse:latest
+RUN R -e "install.packages('tidyverse')"
