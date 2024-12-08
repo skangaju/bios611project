@@ -1,5 +1,5 @@
 ---
-title: "report"
+title: 'Archive of Our Own 2021 Data Dump: Exploratory Data Analysis'
 author: "Sonia Kangaju"
 date: "`r Sys.Date()`"
 output: html_document
@@ -9,6 +9,93 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Archive of Our Own: 2021 Data Dump Analysis
+## Overview
 
-(More to come later...)
+This project explores a data dump from the Archive of Our Own (AO3), which is a public archive that houses written / literary transformative works (fan fiction, written roleplays, etc). The data was officially released by the site management team in March of 2021, and it consists of two tables: a works table and a tags table.
+
+The works table contains the following basic information about written works published to the site on or before February 26, 2021 (02-26-2021):
+
+- Creation date (the date on which the work was first published)
+- Language (the language in which the work is written, which is indicated by the author)
+- Word count (the number of words in the main text of the work)
+- Restricted (a binary value that is true if the work is marked by the author as restricted, so that it can only be accessed by registered users of the site who are signed in)
+- Complete (a binary value that is true if the work is marked by the author as complete)
+- Tag IDs (a “+”-delimited list of ID numbers, each of which corresponds to a tag in the tags table; authors add these tags to their works to highlight characters, relationships, themes, tropes, etc. that appear in the work, and potential readers can use these tags to search for specific types of content that they like or filter out content with any themes that they would rather not engage)
+
+The tags table includes the following information:
+
+- Tag ID (a unique integer ID number for each tag)
+- Tag type (Is the tag describing a fandom to which the work belongs? A character or a relationship that features in the work? A warning for potentially disturbing content? Some other theme or aspect of the work? etc.)
+-	Tag name (the text of the tag – note that this is only included for tags which have been used more than five times on the site)
+- Canonical (a binary value that is true if the tag is “canonical”, meaning that it is the officially recognized tag for indicating a certain fandom / character / relationship or the like)
+- Number of uses (an approximate count for the number of works that include the tag)
+- Merger ID (the unique ID of the canonical tag to which the tag is linked, if applicable – this is how the site handles duplicates / alternative spellings of tags to avoid redundancy)
+
+
+## Site Activity by Year
+
+![](figures/worksperyear.jpg)
+The number of works published to AO3 steadily increases with time, which tracks with the trend of fandom communities (and fanfiction writing communities in particular) growing in popularity through the 21st century. As more popular media is released to the public over the years (and said media is released at a faster rate over time), the number of active fandoms grows, as does the number of fanfiction writers and the number of works that said writers produce.
+
+We see a particularly large spike in the number of works published between the years 2019 and 2020. This notable spike in activity is likely driven at least in part by the COVID-19 pandemic. Many fanfiction writers leaned into their fandom communities to find connection and pass the time during the lockdown imposed by the pandemic, thus increasing the average output of published works for active fanfiction writers.
+
+## Languages
+
+```{r,echo=F}
+tab1 = read.csv("derived_data/language_counts.csv"); tab1
+```
+
+![](figures/nonenglish_languages.jpg)
+
+AO3 appears to be utilized most heavily by English-speaking writers, as over 90% of the works published on the site are written in English. Thus we can anticipate that most of the works for any given fandom will be written in English, though there may be (and there likely is) a small subset of fandoms for which the majority of works are not written in English, likely because the source material itself is in a language that is not English and thus its fans are predominantly non-English-speaking.
+
+## Word Counts
+
+![](figures/wordcounts_50000.jpg)
+
+![](figures/wordcounts_10000.jpg)
+
+The vast majority of works published to the archive are on the shorter side: about 85.77% of works are less than 10,000 words long, and about 97.45% of works are less than 50,000 words long. Most works of fanfiction are either "one-shots" (short stories that are usually 10,000 words long at most) or "drabbles" (even shorter stories, or brief scenes / sketches, that are usually 1,000 words long at most, and can even be as short as 100 words). 
+
+Most multi-chapter works tend not to be much longer than novellas; individual chapters usually range in length from 2,000 to 10,000 words and rarely exceed 10 or 15 chapters in length. More ambitious projects are rarer since only more experienced writers tend to take them on, and even then, many projects are abandoned before they are completed due to the writers either not having the time to finish the projects and / or losing the motivation to finish the projects as their interests in fandoms change with time.
+
+## Completion Status
+
+![](figures/completion.jpg)
+About 84% of all works on the site are marked by the authors as being complete. Most such works are the one-shots and drabbles discussed above.
+
+## Restricted Status
+
+![](figures/restricted.jpg)
+Only about 3% of all works on the archive are marked as restricted. These works are more likely to contain highly sensitive or taboo content; thus authors opt to protect themselves from the judgment of less initiated readers by making it so that only registered users of the site (who are more likely to understand the intellectual and therapeutic benefits of exploring said sensitive / taboo topics in writing) can access the works.
+
+In general, though, most writers are eager for their works to be seen and enjoyed by as many potential readers as possible, even if (and sometimes especially if) the content is subversive in nature. Fandom communities are safe spaces for like-minded people to explore and enjoy such themes together.
+
+## Ratings
+
+![](figures/ratings.jpg)
+```{r,echo=F}
+tab2 = read.csv("derived_data/ratings_counts.csv"); tab2
+```
+
+
+## Categories
+
+![](figures/categories.jpg)
+```{r,echo=F}
+tab3 = read.csv("derived_data/categories_counts.csv"); tab3
+```
+
+
+## Archive Warnings
+
+![](figures/warnings.jpg)
+```{r,echo=F}
+tab4 = read.csv("derived_data/warnings_counts.csv"); tab4
+```
+
+
+## Most Active Fandoms
+
+
+![](figures/worksbyfandom.jpg)
