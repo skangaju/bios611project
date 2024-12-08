@@ -14,25 +14,6 @@ l <- l %>% filter(count>1000) %>%
 l$percentage = 100 * l$count / N;
 write_csv(l, "derived_data/language_counts.csv");
 
-# Counts of ratings
-ratings <- tags %>% filter(type=="Rating" & canonical==TRUE);
-ratings$percentage <- ratings$cached_count / N;
-ratings %>% select(id,name,cached_count,percentage) %>% 
-  write_csv("derived_data/ratings_counts.csv");
-
-# Counts of archive warnings
-archwarn <- tags %>% filter(type=="ArchiveWarning" & canonical==TRUE);
-archwarn$percentage <- archwarn$cached_count / N;
-archwarn %>% select(id,name,cached_count,percentage) %>% 
-  write_csv("derived_data/warnings_counts.csv");
-
-# Counts of categories
-categ <- tags %>% filter(type=="Category" & canonical==TRUE);
-categ$percentage <- categ$cached_count / N;
-categ %>% select(id,name,cached_count,percentage) %>% 
-  write_csv("derived_data/categories_counts.csv");
-
-
 # Number of works per year
 works %>% group_by(creation_year) %>% tally() %>%
   ggplot(aes(creation_year,n)) + geom_col(fill="#CC0000") + 
